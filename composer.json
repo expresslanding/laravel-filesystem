@@ -1,0 +1,57 @@
+{
+    "name": "expresslanding/filesystem",
+    "description": "Laravel package is an extension of the Laravel functionality for working with file systems. You can connect an unlimited number of disks, manage their statuses, track the occupied space.",
+    "keywords": [
+        "expresslanding",
+        "filesystem",
+        "s3",
+        "sftp",
+        "ftp",
+        "laravel",
+        "laravel-package",
+        "sdk"
+    ],
+    "type": "laravel-package",
+    "license": "MIT",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "Dmitry Kovalev",
+            "email": "d.kovalev@expresslanding.com",
+            "homepage": "https://expresslanding.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "ExpressLanding\\Filesystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ExpressLanding\\Filesystem\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.0.2",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.10",
+        "orchestra/testbench": "^6.2.0"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "prefer-stable": true,
+    "extra": {
+        "laravel":{
+            "providers": [
+                "ExpressLanding\\Filesystem\\FilesystemServiceProvider"
+            ]
+        }
+    }
+}
+
