@@ -1,6 +1,6 @@
 {
     "name": "expresslanding/filesystem",
-    "description": "Laravel package is an extension of the Laravel functionality for working with file systems. You can connect an unlimited number of disks, manage their statuses, track the occupied space.",
+        "description": "Filesystem handling for Laravel 9.X",
     "keywords": [
         "expresslanding",
         "filesystem",
@@ -8,8 +8,7 @@
         "sftp",
         "ftp",
         "laravel",
-        "laravel-package",
-        "sdk"
+        "laravel-package"
     ],
     "type": "laravel-package",
     "license": "MIT",

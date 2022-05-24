@@ -24,6 +24,10 @@ class FilesystemServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
+            __DIR__.'/../config/filesystem.php' => config_path('filesystem.php'),
+        ], 'config');
+
+        $this->publishes([
             __DIR__.'/../database/migrations/create_filesystems_table.php.stub' => $this->getMigrationFileName('create_filesystems_table.php'),
         ], 'migrations');
     }
