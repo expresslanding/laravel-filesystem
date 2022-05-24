@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreatePermissionTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $tableName = config('filesystem.table_name');
+        $drivers   = config('filesystem.driver');
+        $statuses  = config('filesystem.status');
+
+        if (empty($tableNames)) {
+            throw new \Exception('Error: config/filesystem.php not loaded. Run [php artisan config:clear] and try again.');
+        }
+
+        Schema::create($tableName, function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('size')->default(0);
+            $table->unsignedBigInteger('used')->default(0);
+            $table->unsignedBigInteger('available')->default(0);
+            $table->unsignedBigInteger('percentage_used')->default(0);
+            $table->enum('driver', implode(',', $drivers));
+            $table->enum('status', implode(',', $statuses));
+            $table->text('name');                                       // For MySQL use string('name', 200);
+            $table->jsonb('config');                                    // For MySQL use text('config');
+            $table->timestamps();
+            $table->unique(['name']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $tableName = config('filesystem.table_name');
+
+        if (empty($tableNames)) {
+            throw new \Exception('Error: config/filesystem.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
+        }
+
+        Schema::drop($tableName);
+    }
+}
