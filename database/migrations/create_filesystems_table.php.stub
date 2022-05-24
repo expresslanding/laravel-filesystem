@@ -15,7 +15,7 @@ class CreatePermissionTables extends Migration
     {
         $tableName = config('filesystem.table_name');
         $drivers   = config('filesystem.driver');
-        $statuses  = config('filesystem.status');
+        $statuses  = config('filesystem.statuses');
 
         if (empty($tableNames)) {
             throw new \Exception('Error: config/filesystem.php not loaded. Run [php artisan config:clear] and try again.');
