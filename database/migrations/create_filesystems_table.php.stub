@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use ExpressLanding\Filesystem\Exceptions\FilesystemConfigException;
 
-class CreatePermissionTables extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +15,10 @@ class CreatePermissionTables extends Migration
     public function up()
     {
         $tableName = config('filesystem.table_name');
-        $drivers   = config('filesystem.driver');
+        $drivers   = config('filesystem.drivers');
         $statuses  = config('filesystem.statuses');
 
-        if (empty($tableNames)) {
+        if (empty($tableName)) {
             throw FilesystemConfigException::configNotLoaded();
         }
 
@@ -28,10 +28,10 @@ class CreatePermissionTables extends Migration
             $table->unsignedBigInteger('used')->default(0);
             $table->unsignedBigInteger('available')->default(0);
             $table->unsignedBigInteger('percentage_used')->default(0);
-            $table->enum('driver', implode(',', $drivers));
-            $table->enum('status', implode(',', $statuses));
-            $table->text('name');                                       // For MySQL use string('name', 200);
-            $table->jsonb('config');                                    // For MySQL use text('config');
+            $table->enum('driver', $drivers);
+            $table->enum('status', $statuses);
+            $table->text('name');                                               // For MySQL use string('name', 200);
+            $table->jsonb('config');                                            // For MySQL use text('config');
             $table->timestamps();
             $table->unique(['name']);
         });
@@ -46,10 +46,10 @@ class CreatePermissionTables extends Migration
     {
         $tableName = config('filesystem.table_name');
 
-        if (empty($tableNames)) {
+        if (empty($tableName)) {
             throw FilesystemConfigException::configNotFound();
         }
 
         Schema::drop($tableName);
     }
-}
+};
