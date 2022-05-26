@@ -22,7 +22,7 @@ class CreatePermissionTables extends Migration
             throw FilesystemConfigException::configNotLoaded();
         }
 
-        Schema::create($tableName, function (Blueprint $table) {
+        Schema::create($tableName, function (Blueprint $table) use ($statuses, $drivers) {
             $table->id();
             $table->unsignedBigInteger('size')->default(0);
             $table->unsignedBigInteger('used')->default(0);
