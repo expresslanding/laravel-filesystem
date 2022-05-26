@@ -20,8 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $config
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @method static where(string $string, string $name)
- * @method static orderBy(string $string, string $string1)
+
  */
 class Filesystem extends Model
 {

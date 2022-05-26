@@ -2,6 +2,7 @@
 
 namespace ExpressLanding\Filesystem\Commands;
 
+use Carbon\Carbon;
 use ExpressLanding\Filesystem\Filesystem;
 use Illuminate\Console\Command;
 use League\Flysystem\Exception;
@@ -31,23 +32,24 @@ class ListFilesystemCommand extends Command
     {
         try {
             $filesystems = (new Filesystem())->list();
-            dd($filesystems);
-            if (!$filesystems) {
-                $filesystems = [];
+            if ($filesystems) {
+                $body = array_map(fn($filesystem) => [
+                    $filesystem['id'],
+                    $filesystem['name'],
+                    $filesystem['size'],
+                    $filesystem['used'],
+                    $filesystem['available'],
+                    $filesystem['percentage_used'],
+                    $filesystem['driver'],
+                    $filesystem['status'],
+                    Carbon::createFromTimestamp($filesystem['created_at'])->toDateTimeString(),
+                    Carbon::createFromTimestamp($filesystem['updated_at'])->toDateTimeString(),
+                ], $filesystems->toArray());
+            } else {
+                $body = [];
             }
 
-            $body        = array_map(fn($filesystem) => [
-                $filesystem->id,
-                $filesystem->name,
-                $filesystem->size,
-                $filesystem->used,
-                $filesystem->available,
-                $filesystem->percentage_used,
-                $filesystem->driver,
-                $filesystem->status,
-            ], $filesystems);
-
-            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status'], $body);
+            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status', 'Created', 'Updated'], $body);
 
             return true;
         } catch (Exception $exception) {
