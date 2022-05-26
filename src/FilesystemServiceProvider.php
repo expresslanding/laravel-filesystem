@@ -16,6 +16,7 @@ class FilesystemServiceProvider extends ServiceProvider
     {
         $this->commands([
             Commands\ChangeFilesystemStatusCommand::class,
+            Commands\ChangeLocalFilesystemConfigCommand::class,
             Commands\GetFilesystemCommand::class,
             Commands\ListFilesystemCommand::class,
             Commands\MakeLocalFilesystemCommand::class,

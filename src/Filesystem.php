@@ -99,6 +99,31 @@ class Filesystem
     }
 
     /**
+     * Chane config for local disk
+     * @param string $name
+     * @param array $config
+     * @return FilesystemModel
+     * @throws FilesystemDriverException
+     */
+    public function changeLocalDiskConfig(string $name, array $config): FilesystemModel
+    {
+        if (($validation = $this->validateLocalDiskConfig(array_merge($config, ['name' => $name])))->fails()) {
+            throw FilesystemDriverException::configurationFileInitializationError($validation->errors()->first());
+        }
+
+        $filesystem = $this->getDisk($name);
+
+        if ($filesystem->driver != 'local') {
+            throw FilesystemDriverException::mismatchDiskDriver();
+        }
+
+        $filesystem->config = json_encode($config);
+        $filesystem->save();
+
+        return $filesystem;
+    }
+
+    /**
      * @param string $name
      * @param string $status
      * @return FilesystemModel

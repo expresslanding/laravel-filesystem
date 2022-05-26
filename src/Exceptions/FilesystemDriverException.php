@@ -14,6 +14,14 @@ class FilesystemDriverException extends FilesystemException
     }
 
     /**
+     * @return FilesystemDriverException
+     */
+    public static function mismatchDiskDriver(): FilesystemDriverException
+    {
+        return new FilesystemDriverException("Mismatch disk driver");
+    }
+
+    /**
      * @param string $error
      * @return FilesystemDriverException
      */
