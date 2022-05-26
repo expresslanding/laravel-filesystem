@@ -2,12 +2,11 @@
 
 namespace ExpressLanding\Filesystem\Commands;
 
+use Carbon\Carbon;
 use ExpressLanding\Filesystem\Filesystem;
 use ExpressLanding\Filesystem\Traits\FilesystemValidator;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
-class MakeLocalFilesystemCommand extends Command
+class MakeLocalFilesystemCommand extends FilesystemCommand
 {
     use FilesystemValidator;
 
@@ -55,9 +54,14 @@ class MakeLocalFilesystemCommand extends Command
                 $filesystem->percentage_used,
                 $filesystem->driver,
                 $filesystem->status,
+                Carbon::createFromTimestamp($filesystem->created_at)->toDateTimeString(),
+                Carbon::createFromTimestamp($filesystem->updated_at)->toDateTimeString(),
             ];
 
-            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status'], [$body]);
+            $this->info(sprintf('"%s" disk information', $filesystem->name));
+            $this->table(['ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status', 'Created', 'Last updated'], [$body]);
+            $this->info(sprintf('"%s" disk configuration', $filesystem->name));
+            $this->configTable($filesystem->driver, $filesystem->config);
 
             return true;
         } catch (\Exception $exception) {

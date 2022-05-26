@@ -106,7 +106,9 @@ class Filesystem
      */
     public function setDiskStatus(string $name, string $status): FilesystemModel
     {
-        if ($this->validateStatus(['status' => $status])->fails()) throw FilesystemDriverException::undefinedDiskStatusName($status);
+        if (($validation = $this->validateStatus(['name' => $name, 'status' => $status]))->fails()) {
+            throw FilesystemDriverException::changeStatusError($validation->errors()->first());
+        }
 
         $disk           = $this->getDisk($name);
         $disk->status   = $status;

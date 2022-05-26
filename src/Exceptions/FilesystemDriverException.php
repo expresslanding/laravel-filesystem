@@ -15,6 +15,15 @@ class FilesystemDriverException extends FilesystemException
 
     /**
      * @param string $error
+     * @return FilesystemDriverException
+     */
+    public static function changeStatusError(string $error): FilesystemDriverException
+    {
+        return new FilesystemDriverException("Change status error: \"{$error}\"");
+    }
+
+    /**
+     * @param string $error
      * @param mixed|int $code
      * @return FilesystemDriverException
      */

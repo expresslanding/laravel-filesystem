@@ -2,16 +2,14 @@
 
 namespace ExpressLanding\Filesystem\Commands;
 
-use ExpressLanding\Filesystem\Exceptions\FilesystemDriverException;
 use Illuminate\Console\Command;
 
-abstract class FilesystemCommandHelper extends Command
+abstract class FilesystemCommand extends Command
 {
     /**
      * Execute the console command.
      *
      * @return bool
-     * @throws FilesystemDriverException
      */
     public function handle(): bool {}
 

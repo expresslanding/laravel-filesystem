@@ -59,7 +59,7 @@ trait FilesystemValidator
             'visibility'   => ['required', Rule::in(['public', 'private'])],
             'throw'        => ['required', 'boolean'],
         ], [
-            //'name.*'       => '--name | unique name of content server',
+            'name.*'       => '--name | unique name of content server',
             'root.*'       => '--root | path to storage',
             'url.*'        => '--url | URL to visible content over HTTP/HTTPS',
             'visibility.*' => '--visibility | can be "public" or "local"',
@@ -89,6 +89,7 @@ trait FilesystemValidator
             'name'      => ['required', $ruleUnique],
             'status'    => ['required', Rule::in($statuses)],
         ], [
+            'name.*'    => '--name | unique name of content server',
             'status.*'  => sprintf('--status | Can be %s}', implode(", ", $statuses)),
         ]);
     }

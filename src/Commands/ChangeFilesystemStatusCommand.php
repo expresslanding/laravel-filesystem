@@ -5,10 +5,8 @@ namespace ExpressLanding\Filesystem\Commands;
 use ExpressLanding\Filesystem\Exceptions\FilesystemDriverException;
 use ExpressLanding\Filesystem\Filesystem;
 use ExpressLanding\Filesystem\Traits\FilesystemValidator;
-use Illuminate\Console\Command;
-use League\Flysystem\Exception;
 
-class ChangeFilesystemStatusCommand extends Command
+class ChangeFilesystemStatusCommand extends FilesystemCommand
 {
     use FilesystemValidator;
 
@@ -32,7 +30,6 @@ class ChangeFilesystemStatusCommand extends Command
      * Execute the console command.
      *
      * @return bool
-     * @throws FilesystemDriverException
      */
     public function handle(): bool
     {
@@ -43,16 +40,10 @@ class ChangeFilesystemStatusCommand extends Command
 
         try {
             $filesystem = (new Filesystem())->setDiskStatus($this->option('name'), $this->option('status'));
-
-            $this->table(['Disk ID', 'Name', 'Old status', 'New status'], [[
-                $filesystem->id,
-                $filesystem->name,
-                $this->option('status'),
-                $filesystem->status,
-            ]]);
+            $this->info(sprintf('Disk "%s" change status to "%s"', $filesystem->name, $filesystem->status));
 
             return true;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->error($exception->getMessage());
 
             return false;

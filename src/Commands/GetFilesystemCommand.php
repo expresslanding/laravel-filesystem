@@ -2,11 +2,10 @@
 
 namespace ExpressLanding\Filesystem\Commands;
 
+use Carbon\Carbon;
 use ExpressLanding\Filesystem\Filesystem;
-use Illuminate\Console\Command;
-use League\Flysystem\Exception;
 
-class GetFilesystemCommand extends Command
+class GetFilesystemCommand extends FilesystemCommand
 {
     /**
      * The name and signature of the console command.
@@ -21,18 +20,18 @@ class GetFilesystemCommand extends Command
      * @var string
      */
     protected $description = 'Get filesystem by name
-                                    {--name | }';
+                                    {--name | Unique name of content server}';
 
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return bool
      */
-    public function handle()
+    public function handle(): bool
     {
         try {
             $filesystem = (new Filesystem())->getDisk($this->option('name'));
-            $body        = [
+            $body       = [
                 $filesystem->id,
                 $filesystem->name,
                 $filesystem->size,
@@ -41,12 +40,17 @@ class GetFilesystemCommand extends Command
                 $filesystem->percentage_used,
                 $filesystem->driver,
                 $filesystem->status,
+                Carbon::createFromTimestamp($filesystem->created_at)->toDateTimeString(),
+                Carbon::createFromTimestamp($filesystem->updated_at)->toDateTimeString(),
             ];
 
-            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status'], $body);
+            $this->info(sprintf('"%s" disk information', $filesystem->name));
+            $this->table(['ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status', 'Created', 'Last updated'], [$body]);
+            $this->info(sprintf('"%s" disk configuration', $filesystem->name));
+            $this->configTable($filesystem->driver, $filesystem->config);
 
             return true;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->error($exception->getMessage());
 
             return false;
