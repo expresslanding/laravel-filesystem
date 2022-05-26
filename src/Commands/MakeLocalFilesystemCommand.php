@@ -57,7 +57,7 @@ class MakeLocalFilesystemCommand extends Command
                 $filesystem->status,
             ];
 
-            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status'], $body);
+            $this->table(['Name ID', 'Name', 'Size', 'Used', 'Available', 'Use%', 'Driver', 'Status'], [$body]);
 
             return true;
         } catch (\Exception $exception) {

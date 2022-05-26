@@ -27,6 +27,10 @@ class Filesystem extends Model
 {
     protected $fillable = [
         'name',
+        'size',
+        'used',
+        'available',
+        'percentage_used',
         'driver',
         'status',
         'config',

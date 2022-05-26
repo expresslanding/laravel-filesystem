@@ -31,6 +31,11 @@ class ListFilesystemCommand extends Command
     {
         try {
             $filesystems = (new Filesystem())->list();
+            dd($filesystems);
+            if (!$filesystems) {
+                $filesystems = [];
+            }
+
             $body        = array_map(fn($filesystem) => [
                 $filesystem->id,
                 $filesystem->name,

@@ -82,10 +82,14 @@ class Filesystem
 
         return DB::transaction(function () use ($name, $config) {
             $disk = with(new FilesystemModel())->fill([
-                'name'      => $name,
-                'driver'    => 'local',
-                'status'    => $this->newDiskStatus,
-                'config'    => json_encode($config),
+                'name'              => $name,
+                'size'              => 0,
+                'used'              => 0,
+                'available'         => 0,
+                'percentage_used'   => 0,
+                'driver'            => 'local',
+                'status'            => $this->newDiskStatus,
+                'config'            => json_encode($config),
             ]);
 
             $disk->save();

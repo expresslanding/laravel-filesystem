@@ -52,16 +52,14 @@ trait FilesystemValidator
             $ruleUnique = sprintf('unique:%s', $table);
         }
 
-        return Validator::make([
-            $config
-        ], [
+        return Validator::make($config, [
             'name'         => ['required', 'string', 'min:3', 'max:200', $ruleUnique],
             'root'         => ['string'],
             'url'          => ['url'],
             'visibility'   => ['required', Rule::in(['public', 'private'])],
             'throw'        => ['required', 'boolean'],
         ], [
-            'name.*'       => '--name | unique name of content server',
+            //'name.*'       => '--name | unique name of content server',
             'root.*'       => '--root | path to storage',
             'url.*'        => '--url | URL to visible content over HTTP/HTTPS',
             'visibility.*' => '--visibility | can be "public" or "local"',
@@ -87,9 +85,7 @@ trait FilesystemValidator
             $ruleUnique = sprintf('exists:%s', $table);
         }
 
-        return Validator::make([
-            $parameters,
-        ], [
+        return Validator::make($parameters, [
             'name'      => ['required', $ruleUnique],
             'status'    => ['required', Rule::in($statuses)],
         ], [
