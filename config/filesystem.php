@@ -121,11 +121,11 @@ return [
         /*
          * The status assigned to the new disk
          */
-        'newDisk'       => 'available',
+        'newDisk'       => 'deactivated',
 
         /*
          * Status defining a free disk for work
          */
-        'availableDisk' => 'deactivated',
+        'availableDisk' => 'available',
     ],
 ];
