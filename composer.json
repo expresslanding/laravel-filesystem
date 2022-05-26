@@ -1,6 +1,6 @@
 {
     "name": "expresslanding/filesystem",
-        "description": "Filesystem handling for Laravel 9.X",
+    "description": "Filesystem handling for Laravel 9.X",
     "keywords": [
         "expresslanding",
         "filesystem",

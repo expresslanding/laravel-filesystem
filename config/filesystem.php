@@ -11,7 +11,17 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Table name
+    | Database
+    |--------------------------------------------------------------------------
+    |
+    | Set database as "pgsql" or "mysql"
+    |
+    */
+    'database'   => 'pgsql',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Table Name
     |--------------------------------------------------------------------------
     |
     | You can specify any table name or schema if using PostgreSQL database like to
@@ -97,5 +107,25 @@ return [
          * Mark the disk with this status if you need to perform technical work
          */
         'maintenance',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filesystem Statues Map
+    |--------------------------------------------------------------------------
+    | You can set custom statues for your application business, so, you should
+    | describing main statuses in "statuses_map" config section
+    |
+    */
+    'statuses_map'   => [
+        /*
+         * The status assigned to the new disk
+         */
+        'newDisk'       => 'available',
+
+        /*
+         * Status defining a free disk for work
+         */
+        'availableDisk' => 'deactivated',
     ],
 ];
