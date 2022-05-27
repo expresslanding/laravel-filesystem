@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 
 trait FilesystemValidator
 {
-    public function validateDiskNameToExist(string $name): Contract
+    public function validateDiskNameToUnique(string $name): Contract
     {
         $dbDriver = config('filesystem.database');
         $table    = config('filesystem.table_name');
@@ -20,12 +20,37 @@ trait FilesystemValidator
         }
 
         return Validator::make(['name' => $name], [
-            'name'         => ['required', 'string', 'min:3', 'max:200', $ruleUnique],
+            'name'          => ['required', 'string', 'min:3', 'max:200', $ruleUnique],
         ], [
             'name.required' => '--name | unique name of server',
             'name.unique'   => '--name | A disk with the same name already exists',
         ]);
     }
+
+    /**
+     * @param string $name
+     * @return Contract
+     */
+    public function validateDiskNameToExists(string $name): Contract
+    {
+        $dbDriver = config('filesystem.database');
+        $table    = config('filesystem.table_name');
+
+        if ($dbDriver == 'pgsql') {
+            $ruleUnique = sprintf('exists:%s.%s', $dbDriver, $table);
+        } else {
+            $ruleUnique = sprintf('exists:%s', $table);
+        }
+
+        return Validator::make(['name' => $name], [
+            'name'          => ['required', 'string', 'min:3', 'max:200', $ruleUnique],
+        ], [
+            'name.required' => '--name | unique name of server',
+            'name.exists'   => '--name | Disk not found',
+        ]);
+    }
+
+
 
     /**
      * Validate inpout parameters for post or put local storage disk

@@ -76,7 +76,11 @@ class Filesystem
      */
     public function addLocalDisk(string $name, array $config): FilesystemModel
     {
-        if (($validation = $this->validateLocalDiskConfig(array_merge($config, ['name' => $name])))->fails()) {
+        if ($this->validateDiskNameToUnique($name)->fails()) {
+            throw FilesystemDriverException::configurationFileInitializationError($this->validateDiskNameToUnique($name)->errors()->first());
+        }
+
+        if (($validation = $this->validateLocalDiskConfig(array_merge($config, ['name' => $name, 'driver' => 'local'])))->fails()) {
             throw FilesystemDriverException::configurationFileInitializationError($validation->errors()->first());
         }
 
@@ -89,7 +93,7 @@ class Filesystem
                 'percentage_used'   => 0,
                 'driver'            => 'local',
                 'status'            => $this->newDiskStatus,
-                'config'            => json_encode($config),
+                'config'            => json_encode(array_merge($config, ['driver' => 'local'])),
             ]);
 
             $disk->save();
@@ -107,7 +111,11 @@ class Filesystem
      */
     public function changeLocalDiskConfig(string $name, array $config): FilesystemModel
     {
-        if (($validation = $this->validateLocalDiskConfig(array_merge($config, ['name' => $name])))->fails()) {
+        if ($this->validateDiskNameToExists($name)->fails()) {
+            throw FilesystemDriverException::configurationFileInitializationError($this->validateDiskNameToExists($name)->errors()->first());
+        }
+
+        if (($validation = $this->validateLocalDiskConfig(array_merge($config)))->fails()) {
             throw FilesystemDriverException::configurationFileInitializationError($validation->errors()->first());
         }
 
@@ -117,7 +125,7 @@ class Filesystem
             throw FilesystemDriverException::mismatchDiskDriver();
         }
 
-        $filesystem->config = json_encode($config);
+        $filesystem->config = json_encode(array_merge($config, ['driver' => 'local']));
         $filesystem->save();
 
         return $filesystem;
