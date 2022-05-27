@@ -12,7 +12,7 @@
     ],
     "type": "laravel-package",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "authors": [
         {
             "name": "Dmitry Kovalev",
