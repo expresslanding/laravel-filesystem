@@ -1,5 +1,5 @@
 {
-    "name": "expresslanding/filesystem",
+    "name": "expresslanding/laravel-filesystem",
     "description": "Filesystem handling for Laravel 9.X",
     "keywords": [
         "expresslanding",
@@ -12,7 +12,7 @@
     ],
     "type": "laravel-package",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Dmitry Kovalev",
