@@ -17,7 +17,7 @@ return [
     | Set database as "pgsql" or "mysql"
     |
     */
-    'database'   => 'pgsql',
+    'database'   => env('FILESYSTEM_DATABASE', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     | "schema.tableName"
     |
     */
-    'table_name' => 'filesystem',
+    'table_name' => env('FILESYSTEM_TABLE', 'filesystem'),
 
     /*
     |--------------------------------------------------------------------------
